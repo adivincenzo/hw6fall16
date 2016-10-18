@@ -68,9 +68,11 @@ class MoviesController < ApplicationController
     else
       @movies=Movie.find_in_tmdb(params[:search_terms])
       @search_terms = params[:search_terms]
-      if (@movies.count == 0 || @movies.count == nil)
-        flash[:warning] = "No matching movies were found on TMDb"
-        redirect_to movies_path
+      if !@movies.nil?
+        if @movies.count == 0 || @movies.count == nil
+          flash[:warning] = "No matching movies were found on TMDb"
+          redirect_to movies_path
+        end
       end
     end
   end

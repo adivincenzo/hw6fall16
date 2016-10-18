@@ -27,26 +27,6 @@ def self.find_in_tmdb(string)
   end
 end
 
-def self.find_rating(id)
-  release_data = Tmdb::Movie.releases(id)
-  countries = release_data['countries']
-  
-  if countries != nil
-    ratings = countries.find_all{|movie| movie['iso_3166_1'] == 'US'}
-    #puts(ratings)
-    if ratings != nil
-      ratings.each do |rating|
-        if(self.all_ratings.include?(rating['certification']))
-          return rating['certification']
-        end
-      end
-      return 'NR'
-    else
-      return ''
-    end
-  end
-  
-end
 
 def self.create_from_tmdb(id)
   begin
@@ -58,6 +38,26 @@ def self.create_from_tmdb(id)
       raise Movie::InvalidKeyError, 'Invalid API key'
   end
   
+end
+
+def self.find_rating(id)
+  release_data = Tmdb::Movie.releases(id)
+  #puts release_data
+  countries = release_data['countries']
+  if countries != nil
+    ratings = countries.find_all{|movie| movie['iso_3166_1'] == 'US'}
+    puts(ratings)
+    if ratings != nil
+      ratings.each do |rating|
+        if(self.all_ratings.include?(rating['certification']))
+          return rating['certification']
+        end
+      end
+      return 'NR'
+    else
+      return ''
+    end
+  end
 end
 
 end
