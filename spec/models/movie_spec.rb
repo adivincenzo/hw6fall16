@@ -63,7 +63,7 @@ describe Movie do
     it 'should return a rating for movies released in the US' do
       expect(Tmdb::Movie).to receive(:releases).with(1).and_return({'iso_3166_1' => 'US'})
       rating = Movie.find_rating(1)
-      expect(rating).to eq(nil)
+      !expect(rating).to eq(nil)
     end
     
   end
